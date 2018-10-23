@@ -7,6 +7,7 @@ Low level system calls.
 [![License](https://img.shields.io/crates/l/raw-syscall-base.svg)](LICENSE.md)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rvlzzr/raw-syscall-base.svg)](http://isitmaintained.com/project/rvlzzr/raw-syscall-base "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/rvlzzr/raw-syscall-base.svg)](http://isitmaintained.com/project/rvlzzr/raw-syscall-base "Percentage of issues still open")
+[![Build Status](https://travis-ci.org/rvlzzr/raw-syscall-base.svg?branch=master)](https://travis-ci.org/rvlzzr/raw-syscall-base)
 
 ## Usage
 Add the following to your `Cargo.toml`:
