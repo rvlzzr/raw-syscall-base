@@ -9,7 +9,7 @@ Low level system calls.
 ## Usage
 Add the following to your `Cargo.toml`:
 ```toml
-raw-syscall-base = "0.8.1"
+raw-syscall-base = "0.8.2"
 ```
 
 ## Supported Platforms
