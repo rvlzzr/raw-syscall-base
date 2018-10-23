@@ -1,0 +1,18 @@
+[package]
+name = "raw-syscall-base"
+version = "0.8.1"
+authors = ["Anti Revoluzzer <anti@rvlzzr.com>"]
+license = "MIT-0 OR 0BSD"
+description = "Low-level raw system call base."
+keywords = ["syscall", "raw", "system", "call", "no_std"]
+categories = ["hardware-support", "no-std", "os", "os::unix-apis", "external-ffi-bindings"]
+documentation = "https://docs.rs/raw-syscall-base"
+repository = "https://github.com/rvlzzr/raw-syscall-base"
+homepage = "https://github.com/rvlzzr/raw-syscall-base"
+is-it-maintained-issue-resolution = { repository = "https://github.com/rvlzzr/raw-syscall-base" }
+is-it-maintained-open-issues = { repository = "https://github.com/rvlzzr/raw-syscall-base" }
+readme = "README.md"
+edition = "2018"
+
+[badges]
+maintenance = { status = "actively-developed" }
