@@ -56,11 +56,9 @@ pub unsafe fn syscall_nr(x8: usize, a: &[usize]) -> ! {
 pub unsafe fn syscall_0(x8: usize) -> Result<usize, usize> {
     let x0: usize;
     asm!(
-        "svc $$0"
-        : "={x0}"(x0)
-        : "{x8}"(x8)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        out("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -78,13 +76,10 @@ pub unsafe fn syscall_0(x8: usize) -> Result<usize, usize> {
 #[inline(always)]
 pub unsafe fn syscall_0_nr(x8: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with one argument and returns the result.
@@ -95,11 +90,10 @@ pub unsafe fn syscall_0_nr(x8: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_1(x8: usize, mut x0: usize) -> Result<usize, usize> {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        lateout("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -118,13 +112,11 @@ pub unsafe fn syscall_1(x8: usize, mut x0: usize) -> Result<usize, usize> {
 #[inline(always)]
 pub unsafe fn syscall_1_nr(x8: usize, x0: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with two arguments and returns the result.
@@ -135,11 +127,11 @@ pub unsafe fn syscall_1_nr(x8: usize, x0: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_2(x8: usize, mut x0: usize, x1: usize) -> Result<usize, usize> {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8), "{x1}"(x1)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        lateout("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -158,13 +150,12 @@ pub unsafe fn syscall_2(x8: usize, mut x0: usize, x1: usize) -> Result<usize, us
 #[inline(always)]
 pub unsafe fn syscall_2_nr(x8: usize, x0: usize, x1: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0), "{x1}"(x1)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with three arguments and returns the result.
@@ -175,11 +166,12 @@ pub unsafe fn syscall_2_nr(x8: usize, x0: usize, x1: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_3(x8: usize, mut x0: usize, x1: usize, x2: usize) -> Result<usize, usize> {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8), "{x1}"(x1), "{x2}"(x2)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        lateout("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -198,13 +190,13 @@ pub unsafe fn syscall_3(x8: usize, mut x0: usize, x1: usize, x2: usize) -> Resul
 #[inline(always)]
 pub unsafe fn syscall_3_nr(x8: usize, x0: usize, x1: usize, x2: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0), "{x1}"(x1), "{x2}"(x2)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with four arguments and returns the result.
@@ -215,11 +207,13 @@ pub unsafe fn syscall_3_nr(x8: usize, x0: usize, x1: usize, x2: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_4(x8: usize, mut x0: usize, x1: usize, x2: usize, x3: usize) -> Result<usize, usize> {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        lateout("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -238,13 +232,14 @@ pub unsafe fn syscall_4(x8: usize, mut x0: usize, x1: usize, x2: usize, x3: usiz
 #[inline(always)]
 pub unsafe fn syscall_4_nr(x8: usize, x0: usize, x1: usize, x2: usize, x3: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with five arguments and returns the result.
@@ -255,11 +250,14 @@ pub unsafe fn syscall_4_nr(x8: usize, x0: usize, x1: usize, x2: usize, x3: usize
 #[inline(always)]
 pub unsafe fn syscall_5(x8: usize, mut x0: usize, x1: usize, x2: usize, x3: usize, x4: usize) -> Result<usize, usize> {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3), "{x4}"(x4)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        in("x4") x4,
+        lateout("x0") x0
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -278,13 +276,15 @@ pub unsafe fn syscall_5(x8: usize, mut x0: usize, x1: usize, x2: usize, x3: usiz
 #[inline(always)]
 pub unsafe fn syscall_5_nr(x8: usize, x0: usize, x1: usize, x2: usize, x3: usize, x4: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3), "{x4}"(x4)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        in("x4") x4,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with six arguments and returns the result.
@@ -304,11 +304,15 @@ pub unsafe fn syscall_6(
 ) -> Result<usize, usize>
 {
     asm!(
-        "svc $$0"
-        : "+{x0}"(x0)
-        : "{x8}"(x8), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3), "{x4}"(x4), "{x5}"(x5)
-        : "cc", "memory"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        in("x4") x4,
+        in("x5") x5,
+        lateout("x0") x0,
     );
     if x0 < 0xffff_ffff_ffff_f000 {
         Ok(x0)
@@ -327,11 +331,14 @@ pub unsafe fn syscall_6(
 #[inline(always)]
 pub unsafe fn syscall_6_nr(x8: usize, x0: usize, x1: usize, x2: usize, x3: usize, x4: usize, x5: usize) -> ! {
     asm!(
-        "svc $$0"
-        :
-        : "{x8}"(x8), "{x0}"(x0), "{x1}"(x1), "{x2}"(x2), "{x3}"(x3), "{x4}"(x4), "{x5}"(x5)
-        : "cc"
-        : "volatile"
+        "svc #0",
+        in("x8") x8,
+        in("x0") x0,
+        in("x1") x1,
+        in("x2") x2,
+        in("x3") x3,
+        in("x4") x4,
+        in("x5") x5,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
