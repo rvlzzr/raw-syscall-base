@@ -55,11 +55,10 @@ pub unsafe fn syscall_nr(rax: usize, a: &[usize]) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_0(mut rax: usize) -> Result<usize, usize> {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        :
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -77,13 +76,10 @@ pub unsafe fn syscall_0(mut rax: usize) -> Result<usize, usize> {
 #[inline(always)]
 pub unsafe fn syscall_0_nr(rax: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with one argument and returns the result.
@@ -94,11 +90,11 @@ pub unsafe fn syscall_0_nr(rax: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_1(mut rax: usize, rdi: usize) -> Result<usize, usize> {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -117,13 +113,11 @@ pub unsafe fn syscall_1(mut rax: usize, rdi: usize) -> Result<usize, usize> {
 #[inline(always)]
 pub unsafe fn syscall_1_nr(rax: usize, rdi: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with two arguments and returns the result.
@@ -134,11 +128,12 @@ pub unsafe fn syscall_1_nr(rax: usize, rdi: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_2(mut rax: usize, rdi: usize, rsi: usize) -> Result<usize, usize> {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi), "{rsi}"(rsi)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -157,13 +152,12 @@ pub unsafe fn syscall_2(mut rax: usize, rdi: usize, rsi: usize) -> Result<usize,
 #[inline(always)]
 pub unsafe fn syscall_2_nr(rax: usize, rdi: usize, rsi: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi), "{rsi}"(rsi)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with three arguments and returns the result.
@@ -174,11 +168,13 @@ pub unsafe fn syscall_2_nr(rax: usize, rdi: usize, rsi: usize) -> ! {
 #[inline(always)]
 pub unsafe fn syscall_3(mut rax: usize, rdi: usize, rsi: usize, rdx: usize) -> Result<usize, usize> {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -197,13 +193,13 @@ pub unsafe fn syscall_3(mut rax: usize, rdi: usize, rsi: usize, rdx: usize) -> R
 #[inline(always)]
 pub unsafe fn syscall_3_nr(rax: usize, rdi: usize, rsi: usize, rdx: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with four arguments and returns the result.
@@ -214,11 +210,14 @@ pub unsafe fn syscall_3_nr(rax: usize, rdi: usize, rsi: usize, rdx: usize) -> ! 
 #[inline(always)]
 pub unsafe fn syscall_4(mut rax: usize, rdi: usize, rsi: usize, rdx: usize, r10: usize) -> Result<usize, usize> {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -237,13 +236,14 @@ pub unsafe fn syscall_4(mut rax: usize, rdi: usize, rsi: usize, rdx: usize, r10:
 #[inline(always)]
 pub unsafe fn syscall_4_nr(rax: usize, rdi: usize, rsi: usize, rdx: usize, r10: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with five arguments and returns the result.
@@ -262,11 +262,15 @@ pub unsafe fn syscall_5(
 ) -> Result<usize, usize>
 {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10), "{r8}"(r8)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        in("r8") r8,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -285,13 +289,15 @@ pub unsafe fn syscall_5(
 #[inline(always)]
 pub unsafe fn syscall_5_nr(rax: usize, rdi: usize, rsi: usize, rdx: usize, r10: usize, r8: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10), "{r8}"(r8)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        in("r8") r8,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
 
 /// Performs a system call with six arguments and returns the result.
@@ -311,11 +317,16 @@ pub unsafe fn syscall_6(
 ) -> Result<usize, usize>
 {
     asm!(
-        "syscall"
-        : "+{rax}"(rax)
-        : "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10), "{r8}"(r8), "{r9}"(r9)
-        : "rcx", "r11", "memory"
-        : "volatile"
+        "syscall",
+        inlateout("rax") rax => rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        in("r8") r8,
+        in("r9") r9,
+        out("rcx") _,
+        out("r11") _
     );
     if rax < 0xffff_ffff_ffff_f000 {
         Ok(rax)
@@ -334,11 +345,14 @@ pub unsafe fn syscall_6(
 #[inline(always)]
 pub unsafe fn syscall_6_nr(rax: usize, rdi: usize, rsi: usize, rdx: usize, r10: usize, r8: usize, r9: usize) -> ! {
     asm!(
-        "syscall"
-        :
-        : "{rax}"(rax), "{rdi}"(rdi), "{rsi}"(rsi), "{rdx}"(rdx), "{r10}"(r10), "{r8}"(r8), "{r9}"(r9)
-        : "rcx", "r11"
-        : "volatile"
+        "syscall",
+        in("rax") rax,
+        in("rdi") rdi,
+        in("rsi") rsi,
+        in("rdx") rdx,
+        in("r10") r10,
+        in("r8") r8,
+        in("r9") r9,
+        options(noreturn)
     );
-    unreachable_unchecked()
 }
